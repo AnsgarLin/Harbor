@@ -1,3 +1,4 @@
+# Android's default ignore configurations
 *.iml
 .gradle
 /local.properties
