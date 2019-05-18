@@ -22,6 +22,7 @@ android {
     }
 }
 
+apply plugin: 'kotlin-kapt'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -31,4 +32,19 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    // Litho
+    implementation 'com.facebook.litho:litho-core:0.25.0'
+    implementation 'com.facebook.litho:litho-widget:0.25.0'
+
+    kapt 'com.facebook.litho:litho-processor:0.25.0'
+
+    // SoLoader
+    implementation 'com.facebook.soloader:soloader:0.6.0'
+
+    // For integration with Fresco
+    implementation 'com.facebook.litho:litho-fresco:0.25.0'
+
+    // For testing
+    testImplementation 'com.facebook.litho:litho-testing:0.25.0'
 }
