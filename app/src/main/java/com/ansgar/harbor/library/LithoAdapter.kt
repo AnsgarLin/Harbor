@@ -44,7 +44,7 @@ class LithoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items = ArrayList<LithoProfile>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        val root = LayoutInflater.from(parent.context).inflate(viewType, null)
+//        val root = LayoutInflater.from(parent.context).inflate(viewType, parent, null)
         val context = ComponentContext(parent.context)
         val root = Column.create(context)
             .child(Text.create(context)
