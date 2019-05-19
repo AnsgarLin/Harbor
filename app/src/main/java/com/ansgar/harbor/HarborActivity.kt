@@ -18,5 +18,8 @@ class HarborActivity : AppCompatActivity() {
         entry_litho.setOnClickListener {
             startActivity(Intent(this, LithoActivity::class.java))
         }
+        entry_component.setOnClickListener {
+            startActivity(Intent(this, LithoActivity::class.java))
+        }
     }
 }
