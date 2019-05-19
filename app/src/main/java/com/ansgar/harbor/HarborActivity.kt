@@ -1,24 +1,22 @@
 package com.ansgar.harbor
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.facebook.litho.ComponentContext
-import com.facebook.litho.LithoView
-import com.facebook.litho.widget.Text
+import androidx.appcompat.app.AppCompatActivity
+import com.ansgar.harbor.library.LithoActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class HarborActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
+        setEntries()
+    }
 
-        val context = ComponentContext(this)
-
-        val component = Text.create(context)
-            .text("Hello world")
-            .textSizeDip(50f)
-            .build()
-
-        setContentView(LithoView.create(context, component))
+    private fun setEntries() {
+        entry_litho.setOnClickListener {
+            startActivity(Intent(this, LithoActivity::class.java))
+        }
     }
 }
