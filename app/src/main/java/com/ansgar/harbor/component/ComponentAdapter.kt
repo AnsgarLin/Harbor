@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.core.view.LayoutInflaterCompat
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 
 data class ComponentType(val name: String, @LayoutRes val id: Int)
 
@@ -18,6 +18,9 @@ class ComponentAdapter : RecyclerView.Adapter<ComponentViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ComponentViewHolder, position: Int) {
+        if (position != RecyclerView.NO_POSITION) {
+            holder.onBind(viewTypeSet[position])
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -38,4 +41,7 @@ class ComponentAdapter : RecyclerView.Adapter<ComponentViewHolder>() {
     }
 }
 
-class ComponentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+class ComponentViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    fun onBind(type: ComponentType) {
+    }
+}
