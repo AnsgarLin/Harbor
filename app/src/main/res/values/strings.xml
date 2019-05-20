@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Harbor</string>
+    <string name="sample_long_string">When working on themes and plugins you often notice a piece of text that appears hardcoded into the files, you need to modify it, but you don’t know what theme or plugin it’s in, and certainly not which individual file to look in.
+
+Easily search through your themes, plugins or even WordPress core and be presented with a list of files, the matched text and what line of the file matched your search.
+You can then quickly make edits directly in your browser by clicking the link from the search results.
+
+By default a consistency check is performed when making edits to files, this will look for inconsistencies with braces, brackets and parenthesis that are often accidentally left in.
+This drastically reduces the risk of breaking your site when making edits, but is in no way an absolute guarantee.</string>
 </resources>
