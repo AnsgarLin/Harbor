@@ -36,7 +36,7 @@ class ChatContainer @JvmOverloads constructor(
     private var isSearchable2: Boolean = true
     var ic2 = Icon(icon2)
 
-    private var text = "abcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijk"
+    var text = " "
     private val textPaint = TextPaint().apply {
         color = ContextCompat.getColor(context, R.color.colorAccent)
         isAntiAlias = true
@@ -47,7 +47,7 @@ class ChatContainer @JvmOverloads constructor(
     private val textBound = Rect()
     private var yShift = 0f
 
-    private val text2 = "Just now"
+    private val text2 = ""
     private val textPaint2 = TextPaint(textPaint).apply {
         textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, displayMetrics)
     }
@@ -64,7 +64,7 @@ class ChatContainer @JvmOverloads constructor(
                 scale = lineHeight / intrinsicHeight
                 scaledH = intrinsicHeight * scale
                 scaledW = intrinsicWidth * scale
-                setBounds(sx.roundToInt(), (sy - scaledH / 2).roundToInt(), (sx + scaledW).roundToInt(), (sy + scaledH / 2).roundToInt())
+                setBounds(sx.roundToInt(), (sy - scaledH / 2f).roundToInt(), (sx + scaledW).roundToInt(), (sy + scaledH / 2f).roundToInt())
             }
             return scaledW
         }
@@ -76,17 +76,34 @@ class ChatContainer @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        val startX = 0f // input sx
-        val startY = 0f // input sy
-//        val preIcon = icon // input drawable
-//        var text = "abcd efg hijk" // input message
-//        val postText = "Just now" // input drawable
+        measureBound(w,h)
+    }
 
+    override fun invalidate() {
+        super.invalidate()
+        measureBound(width,height)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        // Icon
+        if (isSearchable) {
+            ic.draw(canvas)
+        }
+
+        if (isSearchable2) {
+            ic2.draw(canvas)
+        }
+        canvas.drawText(text, textBound.left.toFloat(), yShift, textPaint)
+        canvas.drawText(text2, textBound2.left.toFloat(), yShift2, textPaint2)
+    }
+
+    private fun measureBound(w: Int, h: Int) {
         // Mostly icon will align text size, get text bound first
         textPaint.getTextBounds(text, 0, text.length, textBound)
 
-        var drawCenterX = startX // add padding perhaps
-        val drawCenterY = startY + textBound.height() / 2f
+        var drawCenterX = paddingStart.toFloat()
+        val drawCenterY = textBound.height() / 2f + paddingTop
 
         if (isSearchable) {
             drawCenterX += ic.measure(drawCenterX, drawCenterY, textBound.height().toFloat())
@@ -99,7 +116,6 @@ class ChatContainer @JvmOverloads constructor(
         textPaint2.getTextBounds(text2, 0, text2.length, textBound2)
         yShift2 = drawCenterY - textBound2.centerY()
         textBound2.offset(w - textBound2.width(), yShift.roundToInt())
-//        drawCenterX += textBound2.width()
 
         yShift = drawCenterY - textBound.centerY()
         // Shift base on pre icon
@@ -107,58 +123,6 @@ class ChatContainer @JvmOverloads constructor(
         text = TextUtils.ellipsize(text, textPaint,textBound2.left - drawCenterX, TextUtils.TruncateAt.END).toString()
         textPaint.style = Paint.Style.STROKE
         drawCenterX += textBound.width()
-
-
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-        val startX = 0f // input sx
-        val startY = 0f // input sy
-//        val preIcon = icon // input drawable
-//        var text = "abcd efg hijk" // input message
-//        val postText = "Just now" // input drawable
-
-        // Mostly icon will align text size, get text bound first
-//        textPaint.getTextBounds(text, 0, text.length, textBound)
-
-//        var drawCenterX = startX // add padding perhaps
-//        val drawCenterY = startY + textBound.height() / 2f
-
-        // Dot
-        // canvas.drawCircle(drawCenterX, drawCenterY, 1f, textPaint)
-        // Shift bound
-        // textBound.offset(width / 2, height / 2)
-        // Icon
-        if (isSearchable) {
-//            preIcon.run {
-//                val scale = textBound.height().toFloat() / intrinsicHeight.toFloat()
-//                val scaledH = intrinsicHeight.toFloat() * scale
-//                val scaledW = intrinsicWidth.toFloat() * scale
-//                setBounds(drawCenterX.roundToInt(), (drawCenterY - scaledH / 2).roundToInt(), (drawCenterX + scaledW).roundToInt(), (drawCenterY + scaledH / 2).roundToInt())
-                ic.draw(canvas)
-//                drawCenterX += scaledW
-//            }
-        }
-
-        if (isSearchable2) {
-            ic2.draw(canvas)
-        }
-//        var yShift = drawCenterY - textBound.centerY()
-//        // Shift base on pre icon
-//        textBound.offset(drawCenterX.roundToInt(), yShift.roundToInt())
-//        textPaint.style = Paint.Style.STROKE
-        canvas.drawRect(textBound, textPaint)
-        canvas.drawText(text, textBound.left.toFloat(), yShift, textPaint)
-//        drawCenterX += textBound.width()
-
-//        yShift = drawCenterY - textBound2.centerY()
-//        textPaint2.getTextBounds(text2, 0, text2.length, textBound2)
-//        textBound2.offset(drawCenterX.roundToInt(), yShift.roundToInt())
-        canvas.drawRect(textBound2, textPaint2)
-        canvas.drawText(text2, textBound2.left.toFloat(), yShift2, textPaint2)
-//        drawCenterX += textBound2.width()
     }
 
 }

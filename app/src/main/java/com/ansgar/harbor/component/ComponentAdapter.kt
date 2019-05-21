@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.activity_text.view.*
+import kotlinx.android.synthetic.main.listitem_chat.*
 
 data class ComponentType(val name: String, @LayoutRes val id: Int)
 
@@ -43,5 +45,7 @@ class ComponentAdapter : RecyclerView.Adapter<ComponentViewHolder>() {
 
 class ComponentViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     fun onBind(type: ComponentType) {
+        chat_header.text = "abcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijkabcd efg hijk"
+        chat_header.text2 = "3mins"
     }
 }
