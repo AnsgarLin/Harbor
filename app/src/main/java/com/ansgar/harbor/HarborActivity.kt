@@ -2,10 +2,15 @@ package com.ansgar.harbor
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.ansgar.harbor.HarborApplication.Companion.MAIN
 import com.ansgar.harbor.component.ComponentActivity
 import com.ansgar.harbor.library.LithoActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.RuntimeException
 
 class HarborActivity : AppCompatActivity() {
 
@@ -21,6 +26,9 @@ class HarborActivity : AppCompatActivity() {
         }
         entry_component.setOnClickListener {
             startActivity(Intent(this, ComponentActivity::class.java))
+        }
+        entry_exception.setOnClickListener {
+            throw IllegalStateException()
         }
     }
 }
