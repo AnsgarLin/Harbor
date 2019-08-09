@@ -95,7 +95,7 @@ class HarborApplication : Application() {
                 origin.handleMessage(msg)
                 Log.d(TAG, "MainHandlerProxy Handler: $origin / ${msg.what}")
             } catch (throwable: Throwable) {
-                Log.d(TAG, "MainHandlerProxy: " + Looper.myLooper() + ", Queue: " + Looper.myQueue())
+                Log.d(TAG, "MainHandlerProxy: ${Looper.myLooper()}, Queue: ${Looper.myQueue()}, catch $throwable")
             }
 
             return true
