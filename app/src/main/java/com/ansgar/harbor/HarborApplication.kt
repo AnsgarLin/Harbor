@@ -1,14 +1,11 @@
 package com.ansgar.harbor
 
 import android.app.Application
-import android.app.Instrumentation
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
-import com.facebook.litho.widget.RecyclerRangeTraverser
 import com.facebook.soloader.SoLoader
-import java.util.*
 
 /**
  * Normally, [hookMainLooper] will be enough to catch all the exception occur on main thread. But because we will post
@@ -24,7 +21,7 @@ class HarborApplication : Application() {
         SoLoader.init(this, false)
 
         Log.d(TAG, "Looper: " + Looper.myLooper() + ", Queue: " + Looper.myQueue())
-        hookMainLooper()
+//        hookMainLooper()
         hookMainHandler()
     }
 
@@ -35,6 +32,10 @@ class HarborApplication : Application() {
             true
         }
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Looper
+    ///////////////////////////////////////////////////////////////////////////
     private fun hookMainLooper() {
         /**
          * Actually, we can just trigger the Runnable directly, but it will be confusable since it will make the method
@@ -58,6 +59,10 @@ class HarborApplication : Application() {
         }
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Main Handler
+    ///////////////////////////////////////////////////////////////////////////
     private fun hookMainHandler() {
         try {
             val start = System.currentTimeMillis()
@@ -96,6 +101,9 @@ class HarborApplication : Application() {
                 Log.d(TAG, "MainHandlerProxy Handler: $origin / ${msg.what}")
             } catch (throwable: Throwable) {
                 Log.d(TAG, "MainHandlerProxy: ${Looper.myLooper()}, Queue: ${Looper.myQueue()}, catch $throwable")
+                throwable.stackTrace.forEach {
+                    Log.d(TAG, "$it")
+                }
             }
 
             return true
