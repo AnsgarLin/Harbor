@@ -46,8 +46,8 @@ class ChatContainer @JvmOverloads constructor(
     }
     private val textBound = Rect()
     private var yShift = 0f
-
-    private val text2 = ""
+    
+    var text2 = ""
     private val textPaint2 = TextPaint(textPaint).apply {
         textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, displayMetrics)
     }

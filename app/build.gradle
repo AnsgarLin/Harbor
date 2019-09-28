@@ -7,20 +7,21 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.ansgar.harbor"
+        applicationId 'com.ansgar.harbor'
         minSdkVersion 18
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionName '1.0'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    
+
     // To turn on experimental feature of Kotlin
     androidExtensions {
         experimental = true
@@ -30,34 +31,40 @@ android {
 apply plugin: 'kotlin-kapt'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
-    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // Material design
-    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
 
     // Dagger
-    kapt "com.google.dagger:dagger-compiler:2.16"
+    kapt 'com.google.dagger:dagger-compiler:2.18'
 
     // Litho
-    implementation 'com.facebook.litho:litho-core:0.25.0'
-    implementation 'com.facebook.litho:litho-widget:0.25.0'
+    implementation 'com.facebook.litho:litho-core:0.30.0'
+    implementation 'com.facebook.litho:litho-widget:0.30.0'
 
-    kapt 'com.facebook.litho:litho-processor:0.25.0'
+    kapt 'com.facebook.litho:litho-processor:0.30.0'
 
     // SoLoader
     implementation 'com.facebook.soloader:soloader:0.6.0'
 
     // For integration with Fresco
-    implementation 'com.facebook.litho:litho-fresco:0.25.0'
+    implementation 'com.facebook.litho:litho-fresco:0.30.0'
 
     // For testing
     testImplementation 'com.facebook.litho:litho-testing:0.25.0'
+
+    // RxJava2
+    // Note: RxKotlin will cover RxJava 2.2.10
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "com.akaita.java:rxjava2-debug:1.4.0"
 }

@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-printconfiguration
+
+-dontwarn com.facebook.litho.**
+-dontwarn com.facebook.fbui.**
+-dontwarn android.text.StaticLayout
+-dontwarn android.view.DisplayList
+-dontwarn android.view.RenderNode
+-dontwarn android.view.DisplayListCanvas
+-dontwarn android.view.HardwareCanvas
