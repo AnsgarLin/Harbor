@@ -1,5 +1,4 @@
 # Android's default ignore configurations
-.idea
 *.iml
 .gradle
 /local.properties
