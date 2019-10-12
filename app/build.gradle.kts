@@ -1,3 +1,5 @@
+import com.ansgar.harbor.HarborPlugin
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -6,8 +8,10 @@ plugins {
 
     kotlin("android")
     kotlin("android.extensions")
-
 }
+
+apply<HarborPlugin>()
+
 android {
     compileSdkVersion(28)
     defaultConfig {
@@ -69,5 +73,3 @@ dependencies {
     // Note: RxKotlin will cover RxJava 2.2.10
     implementRx()
 }
-
-apply(plugin = "MyPlugin")
