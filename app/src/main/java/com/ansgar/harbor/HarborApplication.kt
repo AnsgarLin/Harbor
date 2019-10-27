@@ -44,7 +44,6 @@ class HarborApplication : Application() {
         // MonitorRunnable().run()
         MAIN.post(MonitorRunnable())
     }
-
     private class MonitorRunnable : Runnable {
         override fun run() {
             try {
@@ -94,7 +93,7 @@ class HarborApplication : Application() {
         }
     }
 
-    private class MainHandlerProxy(private val origin: Handler) : Handler.Callback {
+    class MainHandlerProxy(private val origin: Handler) : Handler.Callback {
         override fun handleMessage(msg: Message): Boolean {
             try {
                 origin.handleMessage(msg)

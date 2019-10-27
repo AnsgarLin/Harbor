@@ -2,10 +2,10 @@ package com.ansgar.harbor
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.ansgar.harbor.component.ComponentActivity
 import com.ansgar.harbor.library.LithoActivity
 import io.reactivex.Observable
@@ -15,102 +15,55 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class HarborActivity : AppCompatActivity() {
 
-    lateinit var disposable: Disposable
+    private lateinit var disposable: Disposable
+
+    private val exceptionHandler = Handler {
+        check(it.what != 1) {
+            // Update view component text, this is allowed.
+            "HarborApplication/Exception from other handler"
+        }
+        true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setEntries()
-
-        throw IllegalStateException()
     }
 
     override fun onResume() {
         super.onResume()
 
-//        val startTime = System.currentTimeMillis()
-//        disposable =
-//            Observable.combineLatest<Int, Int, Int>(
-//                networkCallObservable(1),
-//                networkCallObservable(2), BiFunction { t1, t2 ->
-//                t1
-//            })
-////                .mergeWith(networkCallObservable(2))
-//                .subscribeOn(Schedulers.io())
-//                .subscribe {
-//                    Log.d("RxJava", "Main stream received $it after " + (System.currentTimeMillis() - startTime) + " ms ")
-//                }
-//        val startTime1 = System.currentTimeMillis()
-//        disposable = Observable.combineLatest<Int, Int, Int>(
-//            networkCallObservable10000(1, startTime1).subscribeOn(Schedulers.io()),
-//            networkCallObservable10(2, startTime1).subscribeOn(Schedulers.computation()),
-//            BiFunction { t1, t2 -> t1 }
-//        )
-//            .subscribeOn(Schedulers.computation())
-//            .subscribe {
-//                Log.d("RxJava", "End stream $it after "
-//                    + (System.currentTimeMillis() - startTime1) + " ms ")
-//            }
-//        val startTime2 = System.currentTimeMillis()
-//        disposable = Observable.AdPlacementReporter<Int, Int, Int>(
-//            networkCallObservable10000(1, startTime2).subscribeOn(Schedulers.computation()),
-//            networkCallObservable10(2, startTime2).subscribeOn(Schedulers.computation()),
-//            BiFunction { t1, t2 -> t1 }
-//        )
-//            .subscribeOn(Schedulers.computation())
-//            .subscribe {
-//                Log.d("RxJava", "End stream $it after "
-//                    + (System.currentTimeMillis() - startTime2) + " ms ")
-//            }
-        val startTime3 = System.currentTimeMillis()
+        val startTime = System.currentTimeMillis()
         disposable = Observable.zip<Int, Int, Int>(
-            networkCallObservable10000(1, startTime3),
-            networkCallObservable10(2, startTime3),
-            BiFunction { t1, t2 -> t1 }
-        )
+            networkCallObservable10000(1, startTime),
+            networkCallObservable10(2, startTime),
+            BiFunction { t1, t2 -> t1 })
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+            .subscribe({
                 Log.d("RxJava", "End stream $it after "
-                    + (System.currentTimeMillis() - startTime3) + " ms ")
+                    + (System.currentTimeMillis() - startTime) + " ms ")
             }, {
-
-                throw IllegalStateException()
+                // throw IllegalStateException()
             })
+    }
 
-//        val startTime = System.currentTimeMillis()
-//        disposable = networkCallObservable10000(1, startTime)
-//            .subscribeOn(Schedulers.io())
-//            .mergeWith(networkCallObservable10(2, startTime)
-//                .subscribeOn(Schedulers.computation()))
-//            .subscribe {
-//                Log.d("RxJava", "End stream $it after "
-//                    + (System.currentTimeMillis() - startTime) + " ms ")
-//            }
-//        val startTime = System.currentTimeMillis()
-//        disposable = networkCallObservable10000(1, startTime)
-//            .subscribeOn(Schedulers.computation())
-//                .mergeWith(networkCallObservable10(2, startTime)
-//                    .subscribeOn(Schedulers.computation()))
-//                .subscribe {
-//                    Log.d("RxJava", "End stream $it after "
-//                        + (System.currentTimeMillis() - startTime) + " ms ")
-//                }
-//        val startTime = System.currentTimeMillis()
-//        disposable = networkCallObservable10000(1, startTime)
-//            .mergeWith(networkCallObservable10(2, startTime))
-//            .subscribeOn(Schedulers.computation())
-//            .subscribe {
-//                Log.d("RxJava", "End stream $it after "
-//                    + (System.currentTimeMillis() - startTime) + " ms ")
-//            }
+    override fun onStart() {
+        super.onStart()
 
-//        val vd = VectorDrawableCompat.create(resources, R.drawable.ic_placeholder, null)
-//        img_arrow.setImageDrawable(vd)
-//        val d = ResourcesCompat.getDrawable(resources, R.drawable.android_placeholder, null)
-//        img2.setImageDrawable(d)
+        // Way to hook callback on custom handler
+        val callbackFields = exceptionHandler.javaClass.getField("mCallback")
+        callbackFields.isAccessible = true
+        callbackFields.set(exceptionHandler, HarborApplication.MainHandlerProxy(exceptionHandler))
+
+        val exceptionMessage = Message()
+        exceptionMessage.what = 1
+        // Put the message in main thread message queue to trigger exception in handler.
+        exceptionHandler.sendMessageDelayed(exceptionMessage, 1000)
     }
 
     private fun setEntries() {
