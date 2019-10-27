@@ -72,4 +72,7 @@ dependencies {
     // RxJava2
     // Note: RxKotlin will cover RxJava 2.2.10
     implementRx()
+
+    // Coroutine
+    implementCoroutine()
 }
