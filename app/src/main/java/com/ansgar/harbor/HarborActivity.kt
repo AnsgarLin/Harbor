@@ -7,6 +7,7 @@ import android.os.Message
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.ansgar.harbor.component.ComponentActivity
+import com.ansgar.harbor.coroutine.CoroutineActivity
 import com.ansgar.harbor.library.LithoActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -56,7 +57,7 @@ class HarborActivity : AppCompatActivity() {
         super.onStart()
 
         // Way to hook callback on custom handler
-        val callbackFields = exceptionHandler.javaClass.getField("mCallback")
+        val callbackFields = exceptionHandler.javaClass.getDeclaredField("mCallback")
         callbackFields.isAccessible = true
         callbackFields.set(exceptionHandler, HarborApplication.MainHandlerProxy(exceptionHandler))
 
@@ -67,11 +68,14 @@ class HarborActivity : AppCompatActivity() {
     }
 
     private fun setEntries() {
-        entry_litho.setOnClickListener {
-            startActivity(Intent(this, LithoActivity::class.java))
-        }
-        entry_component.setOnClickListener {
-            startActivity(Intent(this, ComponentActivity::class.java))
+        mapOf(
+            entry_litho to LithoActivity::class.java,
+            entry_component to ComponentActivity::class.java,
+            entry_coroutine to CoroutineActivity::class.java
+        ).forEach { (entry, clazz) ->
+            entry.setOnClickListener {
+                startActivity(Intent(this, clazz))
+            }
         }
         entry_exception.setOnClickListener {
             throw IllegalStateException()

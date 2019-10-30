@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".library.LithoActivity"/>
         <activity android:name=".component.ComponentActivity"/>
+        <activity android:name=".coroutine.CoroutineActivity"/>
     </application>
 
 </manifest>

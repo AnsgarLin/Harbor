@@ -21,9 +21,10 @@ object Versions {
         const val android = "2.1.1"
         const val debug = "1.4.0"
     }
+
     // Kotlin
     const val coroutines = "1.0.0"
-
+    const val lifecycle = "2.2.0-alpha01"
 }
 
 object Libs {
@@ -48,9 +49,15 @@ fun DependencyHandlerScope.implementRx() {
 const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
 const val rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${Versions.coroutines}"
 const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
 
 fun DependencyHandlerScope.implementCoroutine() {
     add("implementation", core)
     add("implementation", rx2)
     add("implementation", android)
+    add("implementation", viewmodel)
+    add("implementation", livedata)
+    add("implementation", runtime)
 }
